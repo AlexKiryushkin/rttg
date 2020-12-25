@@ -12,15 +12,17 @@ namespace rttg
 
 namespace detail {
 
-template <std::size_t FirstIdx, std::size_t LastIdx, class TupleTRef, 
-          class TupleT = std::remove_reference_t<TupleTRef>, 
-          class ReturnT = ToVariantRefT<TupleT> >
-ReturnT binaryGetImpl(TupleTRef && tuple, std::size_t index)
+template <std::size_t FirstIdx, std::size_t LastIdx, class TupleTRef>
+auto binaryGetImpl(TupleTRef && tuple, std::size_t index) -> ToVariantRefT<std::remove_reference_t<TupleTRef>>
 {
+    using TupleT = std::remove_reference_t<TupleTRef>;
+    using ReturnT = ToVariantRefT<std::remove_reference_t<TupleTRef>>;
+
     constexpr auto MiddleIdx = (FirstIdx + LastIdx) / 2;
     if constexpr (FirstIdx == LastIdx)
     {
-        return ReturnT{ std::in_place_index_t<MiddleIdx>{}, std::ref(std::get<MiddleIdx>(tuple)) };
+        return ReturnT{ std::in_place_index_t<MiddleIdx>{}, 
+                        std::ref( std::get<MiddleIdx>( std::forward<TupleTRef>( tuple ) ) ) };
     }
     else
     {
@@ -37,15 +39,18 @@ ReturnT binaryGetImpl(TupleTRef && tuple, std::size_t index)
             return binaryGetImpl<MiddleIdx + 1, LastIdx>(std::forward<TupleTRef>(tuple), index);
         }
 
-        return ReturnT{ std::in_place_index_t<MiddleIdx>{}, std::ref(std::get<MiddleIdx>(tuple)) };
+        return ReturnT{ std::in_place_index_t<MiddleIdx>{}, 
+                        std::ref( std::get<MiddleIdx>( std::forward<TupleTRef>( tuple ) ) ) };
     }
 }
 
 } // namespace detail
 
-template <class TupleTRef, class TupleT = std::remove_reference_t<TupleTRef>, class ReturnT = ToVariantRefT<TupleT> >
-ReturnT get(TupleTRef && tuple, std::size_t index)
+template <class TupleTRef>
+auto get(TupleTRef && tuple, std::size_t index) -> ToVariantRefT<std::remove_reference_t<TupleTRef>>
 {
+    using TupleT = std::remove_reference_t<TupleTRef>;
+
     if (index >= std::tuple_size_v<TupleT>)
     {
         throw std::out_of_range("Error! Tuple index is out of range!\n");
