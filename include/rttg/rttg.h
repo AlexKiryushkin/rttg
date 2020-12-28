@@ -15,7 +15,6 @@ namespace detail {
 template <std::size_t FirstIdx, std::size_t LastIdx, class TupleTRef>
 auto binaryGetImpl(TupleTRef && tuple, std::size_t index) -> ToVariantRefT<std::remove_reference_t<TupleTRef>>
 {
-    using TupleT = std::remove_reference_t<TupleTRef>;
     using ReturnT = ToVariantRefT<std::remove_reference_t<TupleTRef>>;
 
     constexpr auto MiddleIdx = (FirstIdx + LastIdx) / 2;
