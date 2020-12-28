@@ -9,6 +9,9 @@ This project is header-only. Hence, there is no need to build it. To build examp
 	$ mkdir build && cd build && cmake ..
 	$ cmake --build ./
 
+## Language requirements
+This project relies on features from C++17 standard. Thus, compiler should support at least C++17.
+
 ## License
 See the file [LICENSE](LICENSE).
 
