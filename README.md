@@ -1,6 +1,17 @@
 # RunTimeTupleGet
 Provides run-time tuple element access. Allows to iterate over tuple elements in a straightforward fashion.
 
+## Build
+This project is header-only. Hence, there is no need to build it. To build examples, simply execute the following commands:
+	
+	$ git clone https://github.com/AlexKiryushkin/rttg
+	$ cd rttg
+	$ mkdir build && cd build && cmake ..
+	$ cmake --build ./
+
+## License
+See the file [LICENSE](LICENSE).
+
 ## Example
 ```cpp
 #include <iostream>
