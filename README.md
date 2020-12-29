@@ -5,7 +5,7 @@ Provides run-time tuple element access. Allows to iterate over tuple elements in
 This project is header-only. Hence, there is no need to build it. To build examples, simply execute the following commands:
 	
 	$ git clone https://github.com/AlexKiryushkin/rttg
-	$ cd rttg
+	$ cd rttg/examples
 	$ mkdir build && cd build && cmake ..
 	$ cmake --build ./
 
@@ -29,7 +29,7 @@ int main()
     const TupleT tuple{ 5, 3.0, "str"};
     for (std::size_t idx{}; idx < std::tuple_size_v<TupleT>; ++idx)
     {
-        std::visit([](auto && tupleValue) { std::cout << tupleValue.get() << " "; }, rttg::get(tuple, idx));
+        rttg::visit([](auto && tupleValue) { std::cout << tupleValue << " "; }, rttg::get(tuple, idx));
     }
 }
 ```

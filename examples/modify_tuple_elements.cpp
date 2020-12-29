@@ -15,11 +15,11 @@ int main()
         /**
          * Firstly double all tuple elements
          */
-        std::visit([](auto && tupleValue) { tupleValue.get() = tupleValue.get() + tupleValue.get(); }, rttg::get(tuple, idx));
+        rttg::visit([](auto && tupleValue) { tupleValue = tupleValue + tupleValue; }, rttg::get(tuple, idx));
 
         /**
          * Then print changed values
          */
-        std::visit([](auto && tupleValue) { std::cout << tupleValue.get() << " "; }, rttg::get(tuple, idx));
+        rttg::visit([](auto && tupleValue) { std::cout << tupleValue << " "; }, rttg::get(tuple, idx));
     }
 }

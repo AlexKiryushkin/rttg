@@ -11,6 +11,6 @@ int main()
     const TupleT tuple{ 5, 3.0, "str"};
     for (std::size_t idx{}; idx < std::tuple_size_v<TupleT>; ++idx)
     {
-        std::visit([](auto && tupleValue) { std::cout << tupleValue.get() << " "; }, rttg::get(tuple, idx));
+        rttg::visit([](auto && tupleValue) { std::cout << tupleValue << " "; }, rttg::get(tuple, idx));
     }
 }
