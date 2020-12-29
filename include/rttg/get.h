@@ -18,7 +18,7 @@ auto binaryGetImpl(TupleTRef && tuple, std::size_t index) -> ToVariantRefT<std::
 {
     using ReturnT = ToVariantRefT<std::remove_reference_t<TupleTRef>>;
 
-    constexpr auto MiddleIdx = (FirstIdx + LastIdx) / 2;
+    constexpr auto MiddleIdx = (FirstIdx + LastIdx) / 2U;
     if constexpr (FirstIdx == LastIdx)
     {
         return ReturnT{ std::in_place_index_t<MiddleIdx>{}, 
@@ -26,7 +26,7 @@ auto binaryGetImpl(TupleTRef && tuple, std::size_t index) -> ToVariantRefT<std::
     }
     else
     {
-        if constexpr (MiddleIdx > 0)
+        if constexpr (MiddleIdx > 0U)
         {
             if (MiddleIdx > index)
             {
@@ -36,7 +36,7 @@ auto binaryGetImpl(TupleTRef && tuple, std::size_t index) -> ToVariantRefT<std::
 
         if (MiddleIdx < index)
         {
-            return binaryGetImpl<MiddleIdx + 1, LastIdx>(std::forward<TupleTRef>(tuple), index);
+            return binaryGetImpl<MiddleIdx + 1U, LastIdx>(std::forward<TupleTRef>(tuple), index);
         }
 
         return ReturnT{ std::in_place_index_t<MiddleIdx>{}, 
@@ -56,7 +56,7 @@ auto get(TupleTRef && tuple, std::size_t index) -> ToVariantRefT<std::remove_ref
         throw std::out_of_range("Error! Tuple index is out of range!\n");
     }
 
-    return detail::binaryGetImpl<0, std::tuple_size_v<TupleT> - 1>(std::forward<TupleTRef>(tuple), index);
+    return detail::binaryGetImpl<0U, std::tuple_size_v<TupleT> - 1U>(std::forward<TupleTRef>(tuple), index);
 }
 
 } // namespace rttg
