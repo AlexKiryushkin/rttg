@@ -1,5 +1,5 @@
 # RunTimeTupleGet
-Provides run-time tuple element access. Allows to iterate over tuple elements in a straightforward fashion.
+Provides run-time tuple element access. Allows both iterating over tuple elements in a straightforward fashion and accessing individual elements.
 
 ## Build
 This project is header-only. Hence, there is no need to build it. To build examples, simply execute the following commands:
