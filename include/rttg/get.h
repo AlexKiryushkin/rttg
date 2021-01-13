@@ -11,7 +11,8 @@
 namespace rttg
 {
 
-namespace detail {
+namespace detail
+{
 
 template <std::size_t FirstIdx, std::size_t LastIdx, class TupleTRef>
 auto binaryGetImpl(TupleTRef && tuple, std::size_t index) -> ToVariantRefT<std::remove_reference_t<TupleTRef>>
@@ -21,7 +22,7 @@ auto binaryGetImpl(TupleTRef && tuple, std::size_t index) -> ToVariantRefT<std::
     constexpr auto MiddleIdx = (FirstIdx + LastIdx) / 2U;
     if constexpr (FirstIdx == LastIdx)
     {
-        return ReturnT{ std::in_place_index_t<MiddleIdx>{}, 
+        return ReturnT{ std::in_place_index_t<MiddleIdx>{},
                         std::ref( std::get<MiddleIdx>( std::forward<TupleTRef>( tuple ) ) ) };
     }
     else
@@ -39,13 +40,17 @@ auto binaryGetImpl(TupleTRef && tuple, std::size_t index) -> ToVariantRefT<std::
             return binaryGetImpl<MiddleIdx + 1U, LastIdx>(std::forward<TupleTRef>(tuple), index);
         }
 
-        return ReturnT{ std::in_place_index_t<MiddleIdx>{}, 
+        return ReturnT{ std::in_place_index_t<MiddleIdx>{},
                         std::ref( std::get<MiddleIdx>( std::forward<TupleTRef>( tuple ) ) ) };
     }
 }
 
 } // namespace detail
 
+
+/**
+ * Provides run-time access to @tuple element at @index.
+ */
 template <class TupleTRef>
 auto get(TupleTRef && tuple, std::size_t index) -> ToVariantRefT<std::remove_reference_t<TupleTRef>>
 {

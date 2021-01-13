@@ -1,8 +1,12 @@
 
 #pragma once
 
-namespace rttg {
+namespace rttg
+{
 
+/**
+ * Metafunction that provides corresponding std::variant type to given std::tuple type
+ */
 template <class T>
 struct ToVariantRef;
 
@@ -21,6 +25,9 @@ struct ToVariantRef<std::tuple<Ts...>>
     using type = std::variant<std::reference_wrapper<Ts>...>;
 };
 
+/**
+ * Type trait that checks whether given type is std::variant of std::refrence_wrapper's
+ */
 template <class T>
 struct IsVariantRef : std::false_type {};
 

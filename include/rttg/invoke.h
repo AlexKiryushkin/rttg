@@ -24,13 +24,13 @@ template <>
 struct FallbackEmptyCallable<true>
 {
     template <class T>
-    void operator()(T, ...) 
+    void operator()(T, ...)
     {
     }
 };
 
 /**
- * Type implicitly convertible to any type
+ * Type implicitly convertible to any type. Used only in unevaluated context.
  */
 struct ImplicitlyConvertible
 {
@@ -54,10 +54,11 @@ template <class... CallableTs> Overloader(CallableTs ...) -> Overloader<Callable
 
 } // namespace detail
 
+
 /**
  * Calls @callable if it can be called with type hold by @variants, otherwise does nothing.
  */
-template <class CallableT, class... VariantTs, 
+template <class CallableT, class... VariantTs,
           class = std::enable_if_t<(true && ... && IsVariantRefV<VariantTs>)>>
 auto invoke(CallableT && callable, VariantTs && ... variants)
 {
@@ -66,7 +67,7 @@ auto invoke(CallableT && callable, VariantTs && ... variants)
 
     detail::Overloader compositeCallable{ callable, detail::FallbackEmptyCallable<isCallableNonConst>{} };
     return std::visit(
-        [&compositeCallable](auto && value) { return compositeCallable(value.get()); }, 
+        [&compositeCallable](auto && value) { return compositeCallable(value.get()); },
         std::forward<VariantTs>(variants)...);
 }
 
