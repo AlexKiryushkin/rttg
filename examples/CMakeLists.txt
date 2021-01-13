@@ -6,7 +6,7 @@ include(FetchContent)
 FetchContent_Declare(rttg SOURCE_DIR "${PROJECT_SOURCE_DIR}/..")
 FetchContent_MakeAvailable(rttg)
 
-foreach(name IN ITEMS modify_tuple_elements 
+foreach(name IN ITEMS modify_tuple_elements
                       print_tuple_elements
                       access_individual_element)
   add_executable("${name}" "${name}.cpp")
