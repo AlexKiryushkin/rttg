@@ -1,4 +1,7 @@
 
+#pragma once
+
+#include "overloader.h"
 #include "variant_utils.h"
 
 namespace rttg
@@ -38,20 +41,6 @@ struct ImplicitlyConvertible
     operator T() const;
 };
 
-/**
- * Agregator of callables with operator()
- */
-template <class... CallableTs>
-struct Overloader : CallableTs...
-{
-    using CallableTs::operator()...;
-};
-
-/**
- * Class template argument deduction guide
- */
-template <class... CallableTs> Overloader(CallableTs ...) -> Overloader<CallableTs...>;
-
 } // namespace detail
 
 
@@ -65,7 +54,7 @@ auto invoke(CallableT && callable, VariantTs && ... variants)
     using ConstCallableT = std::add_const_t<std::remove_reference_t<CallableT>>;
     constexpr auto isCallableNonConst = !std::is_invocable_v<ConstCallableT, detail::ImplicitlyConvertible>;
 
-    detail::Overloader compositeCallable{ callable, detail::FallbackEmptyCallable<isCallableNonConst>{} };
+    Overloader compositeCallable{ callable, detail::FallbackEmptyCallable<isCallableNonConst>{} };
     return std::visit(
         [&compositeCallable](auto && value) { return compositeCallable(value.get()); },
         std::forward<VariantTs>(variants)...);
