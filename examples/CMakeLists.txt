@@ -9,7 +9,8 @@ FetchContent_MakeAvailable(rttg)
 foreach(name IN ITEMS modify_tuple_elements
                       print_tuple_elements
                       access_individual_element
-                      vector_indices)
+                      vector_indices
+                      overloader)
   add_executable("${name}" "${name}.cpp")
   target_link_libraries("${name}" PRIVATE rttg::rttg)
   target_compile_features("${name}" PRIVATE cxx_std_17)
